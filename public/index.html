@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Broadband Coverage Atlas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page-bg"></div>
+    <main class="layout">
+      <section class="panel panel-left">
+        <h1>Broadband Coverage Atlas</h1>
+        <p class="lead">
+          Search a provider from FCC records and visualize hex-level fixed coverage with Census region performance snapshots.
+        </p>
+
+        <label for="provider-search">Find provider</label>
+        <input id="provider-search" type="text" placeholder="Search by name, holding company, or provider ID" autocomplete="off" />
+        <div id="provider-results" class="provider-results"></div>
+
+        <div class="active-provider">
+          <p class="label">Selected provider</p>
+          <h2 id="provider-name">None selected</h2>
+          <p id="provider-meta" class="muted">Pick a provider to load hex coverage.</p>
+        </div>
+
+        <div class="source-note">
+          <p><strong>FCC data model:</strong> provider registry snapshot + preprocessed hex geometry.</p>
+          <p><strong>Ratings/price:</strong> aggregated by U.S. Census region from market observations.</p>
+        </div>
+      </section>
+
+      <section class="panel panel-map">
+        <div id="map" class="map"></div>
+      </section>
+
+      <section class="panel panel-right">
+        <h3>Region Metrics</h3>
+        <p class="muted">Average Google rating and median monthly internet price by Census region.</p>
+        <div id="region-cards" class="region-cards"></div>
+      </section>
+    </main>
+
+    <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

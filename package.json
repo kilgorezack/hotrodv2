@@ -1,0 +1,13 @@
+{
+  "name": "fcc-broadband-provider-map",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Provider search + FCC-style hex coverage map with Census region analytics",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "build:coverage": "node scripts/build-sample-coverage.mjs",
+    "build:metrics": "node scripts/build-region-metrics.mjs",
+    "build:data": "npm run build:coverage && npm run build:metrics"
+  }
+}

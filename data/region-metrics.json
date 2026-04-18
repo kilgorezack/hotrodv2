@@ -1,0 +1,202 @@
+[
+  {
+    "region": "Northeast",
+    "regionAverageGoogleRating": 3.61,
+    "regionMedianMonthlyPrice": 72.5,
+    "providerCount": 4,
+    "providers": [
+      {
+        "providerId": 130045,
+        "providerName": "Frontier",
+        "averageGoogleRating": 3.3,
+        "medianMonthlyPrice": 65,
+        "marketCount": 1
+      },
+      {
+        "providerId": 130152,
+        "providerName": "Optimum",
+        "averageGoogleRating": 3.6,
+        "medianMonthlyPrice": 74,
+        "marketCount": 3
+      },
+      {
+        "providerId": 130076,
+        "providerName": "Spectrum",
+        "averageGoogleRating": 3.3,
+        "medianMonthlyPrice": 71,
+        "marketCount": 1
+      },
+      {
+        "providerId": 130228,
+        "providerName": "Verizon Fios",
+        "averageGoogleRating": 4.23,
+        "medianMonthlyPrice": 82,
+        "marketCount": 3
+      }
+    ]
+  },
+  {
+    "region": "Midwest",
+    "regionAverageGoogleRating": 3.63,
+    "regionMedianMonthlyPrice": 67,
+    "providerCount": 7,
+    "providers": [
+      {
+        "providerId": 131425,
+        "providerName": "AT&T Fiber",
+        "averageGoogleRating": 4,
+        "medianMonthlyPrice": 80,
+        "marketCount": 1
+      },
+      {
+        "providerId": 130035,
+        "providerName": "CenturyLink",
+        "averageGoogleRating": 3.5,
+        "medianMonthlyPrice": 62,
+        "marketCount": 1
+      },
+      {
+        "providerId": 130317,
+        "providerName": "Comcast Xfinity",
+        "averageGoogleRating": 3.6,
+        "medianMonthlyPrice": 70,
+        "marketCount": 1
+      },
+      {
+        "providerId": 130045,
+        "providerName": "Frontier",
+        "averageGoogleRating": 3.4,
+        "medianMonthlyPrice": 66,
+        "marketCount": 1
+      },
+      {
+        "providerId": 130399,
+        "providerName": "Google Fiber",
+        "averageGoogleRating": 4.55,
+        "medianMonthlyPrice": 70,
+        "marketCount": 2
+      },
+      {
+        "providerId": 130174,
+        "providerName": "Mediacom",
+        "averageGoogleRating": 3.15,
+        "medianMonthlyPrice": 60.5,
+        "marketCount": 2
+      },
+      {
+        "providerId": 130076,
+        "providerName": "Spectrum",
+        "averageGoogleRating": 3.2,
+        "medianMonthlyPrice": 67,
+        "marketCount": 1
+      }
+    ]
+  },
+  {
+    "region": "South",
+    "regionAverageGoogleRating": 3.69,
+    "regionMedianMonthlyPrice": 67,
+    "providerCount": 7,
+    "providers": [
+      {
+        "providerId": 131425,
+        "providerName": "AT&T Fiber",
+        "averageGoogleRating": 4.15,
+        "medianMonthlyPrice": 78,
+        "marketCount": 2
+      },
+      {
+        "providerId": 130317,
+        "providerName": "Comcast Xfinity",
+        "averageGoogleRating": 3.4,
+        "medianMonthlyPrice": 69,
+        "marketCount": 1
+      },
+      {
+        "providerId": 130045,
+        "providerName": "Frontier",
+        "averageGoogleRating": 3.2,
+        "medianMonthlyPrice": 64,
+        "marketCount": 1
+      },
+      {
+        "providerId": 130174,
+        "providerName": "Mediacom",
+        "averageGoogleRating": 3.3,
+        "medianMonthlyPrice": 62,
+        "marketCount": 1
+      },
+      {
+        "providerId": 130076,
+        "providerName": "Spectrum",
+        "averageGoogleRating": 3.45,
+        "medianMonthlyPrice": 67,
+        "marketCount": 2
+      },
+      {
+        "providerId": 140266,
+        "providerName": "T-Mobile Home Internet",
+        "averageGoogleRating": 4.2,
+        "medianMonthlyPrice": 56,
+        "marketCount": 1
+      },
+      {
+        "providerId": 130228,
+        "providerName": "Verizon Fios",
+        "averageGoogleRating": 4.1,
+        "medianMonthlyPrice": 78,
+        "marketCount": 1
+      }
+    ]
+  },
+  {
+    "region": "West",
+    "regionAverageGoogleRating": 3.99,
+    "regionMedianMonthlyPrice": 72.5,
+    "providerCount": 6,
+    "providers": [
+      {
+        "providerId": 130035,
+        "providerName": "CenturyLink",
+        "averageGoogleRating": 3.5,
+        "medianMonthlyPrice": 63.5,
+        "marketCount": 2
+      },
+      {
+        "providerId": 130317,
+        "providerName": "Comcast Xfinity",
+        "averageGoogleRating": 3.75,
+        "medianMonthlyPrice": 73,
+        "marketCount": 2
+      },
+      {
+        "providerId": 130196,
+        "providerName": "Cox",
+        "averageGoogleRating": 3.8,
+        "medianMonthlyPrice": 76,
+        "marketCount": 3
+      },
+      {
+        "providerId": 130399,
+        "providerName": "Google Fiber",
+        "averageGoogleRating": 4.45,
+        "medianMonthlyPrice": 72,
+        "marketCount": 2
+      },
+      {
+        "providerId": 190273,
+        "providerName": "Starlink",
+        "averageGoogleRating": 4.4,
+        "medianMonthlyPrice": 120,
+        "marketCount": 4
+      },
+      {
+        "providerId": 140266,
+        "providerName": "T-Mobile Home Internet",
+        "averageGoogleRating": 4.03,
+        "medianMonthlyPrice": 55,
+        "marketCount": 3
+      }
+    ]
+  }
+]

@@ -1,0 +1,55 @@
+[
+  {"providerId":130317,"state":"CA","googleRating":3.7,"monthlyPrice":74},
+  {"providerId":130317,"state":"WA","googleRating":3.8,"monthlyPrice":72},
+  {"providerId":130317,"state":"IL","googleRating":3.6,"monthlyPrice":70},
+  {"providerId":130317,"state":"FL","googleRating":3.4,"monthlyPrice":69},
+
+  {"providerId":130076,"state":"NY","googleRating":3.3,"monthlyPrice":71},
+  {"providerId":130076,"state":"NC","googleRating":3.5,"monthlyPrice":68},
+  {"providerId":130076,"state":"TX","googleRating":3.4,"monthlyPrice":66},
+  {"providerId":130076,"state":"OH","googleRating":3.2,"monthlyPrice":67},
+
+  {"providerId":131425,"state":"TX","googleRating":4.2,"monthlyPrice":79},
+  {"providerId":131425,"state":"GA","googleRating":4.1,"monthlyPrice":77},
+  {"providerId":131425,"state":"IL","googleRating":4.0,"monthlyPrice":80},
+
+  {"providerId":130228,"state":"NJ","googleRating":4.3,"monthlyPrice":82},
+  {"providerId":130228,"state":"PA","googleRating":4.2,"monthlyPrice":81},
+  {"providerId":130228,"state":"VA","googleRating":4.1,"monthlyPrice":78},
+  {"providerId":130228,"state":"MA","googleRating":4.2,"monthlyPrice":83},
+
+  {"providerId":140266,"state":"AZ","googleRating":4.0,"monthlyPrice":55},
+  {"providerId":140266,"state":"CO","googleRating":4.1,"monthlyPrice":54},
+  {"providerId":140266,"state":"NV","googleRating":4.0,"monthlyPrice":55},
+  {"providerId":140266,"state":"FL","googleRating":4.2,"monthlyPrice":56},
+
+  {"providerId":190273,"state":"MT","googleRating":4.4,"monthlyPrice":120},
+  {"providerId":190273,"state":"WY","googleRating":4.5,"monthlyPrice":120},
+  {"providerId":190273,"state":"AK","googleRating":4.4,"monthlyPrice":120},
+  {"providerId":190273,"state":"NM","googleRating":4.3,"monthlyPrice":120},
+
+  {"providerId":130196,"state":"AZ","googleRating":3.9,"monthlyPrice":76},
+  {"providerId":130196,"state":"CA","googleRating":3.8,"monthlyPrice":78},
+  {"providerId":130196,"state":"NV","googleRating":3.7,"monthlyPrice":75},
+
+  {"providerId":130035,"state":"MN","googleRating":3.5,"monthlyPrice":62},
+  {"providerId":130035,"state":"CO","googleRating":3.6,"monthlyPrice":63},
+  {"providerId":130035,"state":"OR","googleRating":3.4,"monthlyPrice":64},
+
+  {"providerId":130045,"state":"CT","googleRating":3.3,"monthlyPrice":65},
+  {"providerId":130045,"state":"WV","googleRating":3.2,"monthlyPrice":64},
+  {"providerId":130045,"state":"IN","googleRating":3.4,"monthlyPrice":66},
+
+  {"providerId":130174,"state":"IA","googleRating":3.1,"monthlyPrice":61},
+  {"providerId":130174,"state":"MO","googleRating":3.2,"monthlyPrice":60},
+  {"providerId":130174,"state":"GA","googleRating":3.3,"monthlyPrice":62},
+
+  {"providerId":130152,"state":"NY","googleRating":3.6,"monthlyPrice":74},
+  {"providerId":130152,"state":"NJ","googleRating":3.7,"monthlyPrice":75},
+  {"providerId":130152,"state":"CT","googleRating":3.5,"monthlyPrice":73},
+
+  {"providerId":130399,"state":"KS","googleRating":4.5,"monthlyPrice":70},
+  {"providerId":130399,"state":"MO","googleRating":4.6,"monthlyPrice":70},
+  {"providerId":130399,"state":"UT","googleRating":4.5,"monthlyPrice":72},
+  {"providerId":130399,"state":"CO","googleRating":4.4,"monthlyPrice":72}
+]
