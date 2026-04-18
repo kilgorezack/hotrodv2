@@ -5,6 +5,7 @@
   "description": "Provider search + FCC-style hex coverage map with Census region analytics",
   "type": "module",
   "scripts": {
+    "build": "npm run build:data",
     "start": "node server.js",
     "build:coverage": "node scripts/build-sample-coverage.mjs",
     "build:metrics": "node scripts/build-region-metrics.mjs",
