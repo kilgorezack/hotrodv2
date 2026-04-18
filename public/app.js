@@ -13,63 +13,54 @@ const map = new maplibregl.Map({
 
 map.addControl(new maplibregl.NavigationControl(), "top-right");
 
+const techPalette = ["#ef6f38", "#2d8f7b", "#296f9f", "#b16f2f", "#9a4f78", "#4d7b2f"];
+
 let selectedProvider = null;
 let popup = null;
+let activeSourceIds = [];
+let activeLayerIds = [];
 
 map.on("load", async () => {
-  map.addSource("coverage", {
-    type: "geojson",
-    data: { type: "FeatureCollection", features: [] }
-  });
+  await loadProviders();
+  await loadRegionMetrics();
+});
 
-  map.addLayer({
-    id: "coverage-fill",
-    type: "fill",
-    source: "coverage",
-    paint: {
-      "fill-color": "#ef6f38",
-      "fill-opacity": 0.38
-    }
-  });
+map.on("mousemove", (event) => {
+  if (!activeLayerIds.length) return;
 
-  map.addLayer({
-    id: "coverage-line",
-    type: "line",
-    source: "coverage",
-    paint: {
-      "line-color": "#9a3610",
-      "line-width": 1.1
-    }
-  });
-
-  map.on("mousemove", "coverage-fill", (event) => {
-    map.getCanvas().style.cursor = "pointer";
-    const feature = event.features?.[0];
-    if (!feature) return;
-
-    const props = feature.properties || {};
-    if (popup) popup.remove();
-
-    popup = new maplibregl.Popup({ closeButton: false, closeOnClick: false })
-      .setLngLat(event.lngLat)
-      .setHTML(`
-        <strong>${selectedProvider?.brandName || "Provider"}</strong><br />
-        Down: ${props.maxDownMbps || "N/A"} Mbps<br />
-        Up: ${props.maxUpMbps || "N/A"} Mbps
-      `)
-      .addTo(map);
-  });
-
-  map.on("mouseleave", "coverage-fill", () => {
+  const features = map.queryRenderedFeatures(event.point, { layers: activeLayerIds });
+  if (!features.length) {
     map.getCanvas().style.cursor = "";
     if (popup) {
       popup.remove();
       popup = null;
     }
-  });
+    return;
+  }
 
-  await loadProviders();
-  await loadRegionMetrics();
+  map.getCanvas().style.cursor = "pointer";
+  const feature = features[0];
+  const props = feature.properties || {};
+  const coveragePct = Number(props.unit_pct);
+  const coverageText = Number.isFinite(coveragePct) ? `${(coveragePct * 100).toFixed(2)}%` : "N/A";
+
+  if (popup) popup.remove();
+  popup = new maplibregl.Popup({ closeButton: false, closeOnClick: false })
+    .setLngLat(event.lngLat)
+    .setHTML(`
+      <strong>${selectedProvider?.brandName || "Provider"}</strong><br />
+      Tech: ${props.tech_desc || props.technology || "N/A"}<br />
+      Hex coverage: ${coverageText}
+    `)
+    .addTo(map);
+});
+
+map.on("mouseleave", () => {
+  map.getCanvas().style.cursor = "";
+  if (popup) {
+    popup.remove();
+    popup = null;
+  }
 });
 
 async function api(path) {
@@ -100,6 +91,10 @@ async function loadProviders(q = "") {
   payload.providers.forEach((provider) => {
     providerResults.appendChild(providerButton(provider));
   });
+
+  if (!payload.providers.length) {
+    providerResults.innerHTML = '<p class="muted">No providers found.</p>';
+  }
 }
 
 function renderRegionCards(rows) {
@@ -139,23 +134,85 @@ function formatPrice(value) {
   return typeof value === "number" ? `$${value.toFixed(2)}` : "N/A";
 }
 
+function clearCoverageLayers() {
+  activeLayerIds.forEach((layerId) => {
+    if (map.getLayer(layerId)) map.removeLayer(layerId);
+    if (map.getLayer(`${layerId}-line`)) map.removeLayer(`${layerId}-line`);
+  });
+
+  activeSourceIds.forEach((sourceId) => {
+    if (map.getSource(sourceId)) map.removeSource(sourceId);
+  });
+
+  activeLayerIds = [];
+  activeSourceIds = [];
+}
+
+function addCoverageLayers(config) {
+  clearCoverageLayers();
+
+  const techs = config.technologies || [];
+  techs.forEach((tech, index) => {
+    const sourceId = `fcc-${tech.code}-${tech.speedTier}-${index}`;
+    const layerId = `${sourceId}-fill`;
+    const color = techPalette[index % techPalette.length];
+
+    map.addSource(sourceId, {
+      type: "vector",
+      tiles: [
+        `/api/fcc/fixed/tile/${config.processUuid}/${config.provider.providerId}/${tech.code}/{z}/{x}/{y}.pbf`
+      ],
+      minzoom: 0,
+      maxzoom: 14
+    });
+
+    map.addLayer({
+      id: layerId,
+      type: "fill",
+      source: sourceId,
+      "source-layer": "fixedproviderhex",
+      paint: {
+        "fill-color": color,
+        "fill-opacity": 0.3
+      }
+    });
+
+    map.addLayer({
+      id: `${layerId}-line`,
+      type: "line",
+      source: sourceId,
+      "source-layer": "fixedproviderhex",
+      paint: {
+        "line-color": color,
+        "line-width": 0.8,
+        "line-opacity": 0.9
+      }
+    });
+
+    activeSourceIds.push(sourceId);
+    activeLayerIds.push(layerId);
+  });
+}
+
 async function selectProvider(provider) {
   selectedProvider = provider;
   providerNameEl.textContent = provider.brandName;
-  providerMetaEl.textContent = `Provider ID ${provider.providerId} | ${provider.holdingCompany}`;
+  providerMetaEl.textContent = `Loading FCC provider geometry for ID ${provider.providerId}...`;
 
-  const payload = await api(`/api/coverage?providerId=${provider.providerId}`);
-  const source = map.getSource("coverage");
-  source.setData(payload.coverage);
+  const config = await api(`/api/provider-config?providerId=${provider.providerId}`);
+  addCoverageLayers(config);
 
-  const bounds = new maplibregl.LngLatBounds();
-  payload.coverage.features.forEach((feature) => {
-    const coords = feature.geometry.coordinates?.[0] || [];
-    coords.forEach(([lng, lat]) => bounds.extend([lng, lat]));
-  });
+  providerMetaEl.textContent = `Provider ID ${provider.providerId} | ${provider.holdingCompany} | ${config.technologies.length} technologies`;
 
-  if (!bounds.isEmpty()) {
-    map.fitBounds(bounds, { padding: 50, maxZoom: 8, duration: 500 });
+  if (Array.isArray(config.bounds) && config.bounds.length === 4) {
+    const bounds = new maplibregl.LngLatBounds(
+      [config.bounds[0], config.bounds[1]],
+      [config.bounds[2], config.bounds[3]]
+    );
+
+    if (!bounds.isEmpty()) {
+      map.fitBounds(bounds, { padding: 50, maxZoom: 9, duration: 500 });
+    }
   }
 
   await loadRegionMetrics(provider.providerId);

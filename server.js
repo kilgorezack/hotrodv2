@@ -2,7 +2,7 @@ import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { coverageHandler, providersHandler, regionsHandler } from "./lib/handlers.js";
+import { providersHandler, providerConfigHandler, regionsHandler, tileHandler } from "./lib/handlers.js";
 import { sendError, sendJson } from "./lib/http.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -50,16 +50,47 @@ function serveFile(res, filePath) {
   });
 }
 
-function routeApi(req, res, parsed) {
+async function routeApi(req, res, parsed) {
   const wrappedReq = { query: parsed.query, method: req.method };
   let result;
 
   if (parsed.pathname === "/api/providers") {
-    result = providersHandler(wrappedReq);
-  } else if (parsed.pathname === "/api/coverage") {
-    result = coverageHandler(wrappedReq);
+    result = await providersHandler(wrappedReq);
+  } else if (parsed.pathname === "/api/provider-config") {
+    result = await providerConfigHandler(wrappedReq);
   } else if (parsed.pathname === "/api/regions") {
-    result = regionsHandler(wrappedReq);
+    result = await regionsHandler(wrappedReq);
+  } else if (parsed.pathname.startsWith("/api/fcc/fixed/tile/")) {
+    const parts = parsed.pathname.split("/").filter(Boolean);
+    // /api/fcc/fixed/tile/:processUuid/:providerId/:techCode/:z/:x/:y.pbf
+    if (parts.length !== 10) {
+      sendError(res, 400, "Invalid tile path");
+      return;
+    }
+
+    const yRaw = parts[9];
+    const y = yRaw.endsWith(".pbf") ? yRaw.slice(0, -4) : yRaw;
+
+    result = await tileHandler({
+      params: {
+        processUuid: parts[4],
+        providerId: parts[5],
+        techCode: parts[6],
+        z: parts[7],
+        x: parts[8],
+        y
+      }
+    });
+
+    if (result.binary) {
+      res.writeHead(200, {
+        "Content-Type": result.contentType || "application/x-protobuf",
+        "Cache-Control": result.cacheControl || "public, max-age=300",
+        "Access-Control-Allow-Origin": "*"
+      });
+      res.end(result.body);
+      return;
+    }
   } else {
     sendError(res, 404, "Unknown API endpoint");
     return;
@@ -72,7 +103,9 @@ const server = http.createServer((req, res) => {
   const parsed = parseUrl(req.url || "/");
 
   if (parsed.pathname.startsWith("/api/")) {
-    routeApi(req, res, parsed);
+    routeApi(req, res, parsed).catch((error) => {
+      sendError(res, 500, error.message || "Unexpected API error");
+    });
     return;
   }
 
